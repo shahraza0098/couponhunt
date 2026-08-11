@@ -47,10 +47,20 @@ export default function DealCard({
       id={`deal-card-${slug}`}
     >
       {/* Product image area */}
-      <div className="relative h-40 bg-[--ch-bg] flex items-center justify-center border-b border-[--ch-border]">
-        <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
-          {productImage || '🛍️'}
-        </span>
+      <div className="relative h-40 bg-[--ch-bg] flex items-center justify-center border-b border-[--ch-border] overflow-hidden">
+        {productImage ? (
+          productImage.startsWith('http') ? (
+            <img src={productImage} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          ) : (
+            <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
+              {productImage}
+            </span>
+          )
+        ) : (
+          <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
+            🛍️
+          </span>
+        )}
 
         {/* Discount badge overlay */}
         <div className="absolute top-3 left-3">
@@ -95,8 +105,18 @@ export default function DealCard({
         {/* Store */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-[--ch-text-muted]">
-            <span className="text-lg">{storeLogo || '🏪'}</span>
-            <span>{storeName}</span>
+            <div className="w-6 h-6 flex items-center justify-center bg-[--ch-bg] rounded border border-[--ch-border] overflow-hidden shrink-0">
+              {storeLogo ? (
+                storeLogo.startsWith('http') ? (
+                  <img src={storeLogo} alt={storeName} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-lg">{storeLogo}</span>
+                )
+              ) : (
+                <span className="text-lg">🏪</span>
+              )}
+            </div>
+            <span className="truncate">{storeName}</span>
           </div>
           <span className="text-xs text-[--ch-text-faint]">{clickCount} views</span>
         </div>

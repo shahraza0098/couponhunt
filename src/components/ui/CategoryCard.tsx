@@ -27,8 +27,16 @@ export default function CategoryCard({
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
       <div className="relative">
-        <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-          {image || '📂'}
+        <div className="text-4xl mb-3 flex justify-center group-hover:scale-110 transition-transform duration-300">
+          {image ? (
+            image.startsWith('http') ? (
+              <img src={image} alt={name} className="w-16 h-16 object-cover rounded-xl" />
+            ) : (
+              image
+            )
+          ) : (
+            '📂'
+          )}
         </div>
 
         <h3 className="font-semibold text-[--ch-text] group-hover:text-emerald-400 transition-colors">

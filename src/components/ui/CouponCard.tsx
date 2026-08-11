@@ -86,10 +86,20 @@ export default function CouponCard({
         {/* Store info */}
         <Link
           href={`/stores/${storeSlug}`}
-          className="inline-flex items-center gap-2 mt-3 text-sm text-[--ch-text-muted] hover:text-[--ch-text] transition-colors"
+          className="inline-flex items-center gap-2 mt-3 text-sm text-[--ch-text-muted] hover:text-[--ch-text] transition-colors max-w-full"
         >
-          <span className="text-lg">{storeLogo || '🏪'}</span>
-          <span>{storeName}</span>
+          <div className="w-6 h-6 flex items-center justify-center bg-[--ch-bg] rounded border border-[--ch-border] overflow-hidden shrink-0">
+            {storeLogo ? (
+              storeLogo.startsWith('http') ? (
+                <img src={storeLogo} alt={storeName} className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-lg">{storeLogo}</span>
+              )
+            ) : (
+              <span className="text-lg">🏪</span>
+            )}
+          </div>
+          <span className="truncate">{storeName}</span>
         </Link>
       </div>
 

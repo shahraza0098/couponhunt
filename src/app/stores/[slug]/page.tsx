@@ -36,8 +36,16 @@ export default async function StoreDetailPage({ params }: PageProps<'/stores/[sl
       <section className="bg-[--ch-bg-alt] border-b border-[--ch-border]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-start gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-[--ch-surface] border border-[--ch-border] flex items-center justify-center text-4xl shrink-0">
-              {store.logo || '🏪'}
+            <div className="w-20 h-20 rounded-2xl bg-[--ch-surface] border border-[--ch-border] flex items-center justify-center text-4xl shrink-0 overflow-hidden">
+              {store.logo ? (
+                store.logo.startsWith('http') ? (
+                  <img src={store.logo} alt={store.name} className="w-full h-full object-cover" />
+                ) : (
+                  store.logo
+                )
+              ) : (
+                '🏪'
+              )}
             </div>
             <div className="flex-1">
               <h1 className="text-3xl font-bold text-[--ch-text]">{store.name}</h1>

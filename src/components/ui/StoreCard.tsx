@@ -27,8 +27,16 @@ export default function StoreCard({
     >
       <div className="flex items-start gap-4">
         {/* Logo */}
-        <div className="w-14 h-14 rounded-xl bg-[--ch-bg] border border-[--ch-border] flex items-center justify-center text-2xl shrink-0 group-hover:border-emerald-500/30 transition-colors">
-          {logo || '🏪'}
+        <div className="w-14 h-14 rounded-xl bg-[--ch-bg] border border-[--ch-border] flex items-center justify-center text-2xl shrink-0 group-hover:border-emerald-500/30 transition-colors overflow-hidden">
+          {logo ? (
+            logo.startsWith('http') ? (
+              <img src={logo} alt={name} className="w-full h-full object-cover" />
+            ) : (
+              logo
+            )
+          ) : (
+            '🏪'
+          )}
         </div>
 
         <div className="flex-1 min-w-0">
