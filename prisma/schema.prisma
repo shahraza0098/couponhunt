@@ -1,0 +1,372 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+
+
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  EXPIRED
+  ARCHIVED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+  FREE_SHIPPING
+  CASHBACK
+  BOGO
+  OTHER
+}
+
+enum CouponType {
+  CODE
+  NO_CODE
+}
+
+enum ClickTargetType {
+  COUPON
+  DEAL
+}
+
+
+// ============================================================
+// STORE
+// ============================================================
+
+model Store {
+  id          String   @id @default(cuid())
+
+  name        String
+  slug        String   @unique
+
+  logo        String?
+  bannerImage String?
+
+  shortDescription String?
+  description      String?
+
+  websiteUrl  String?
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+
+  // Publishing
+  status      ContentStatus @default(DRAFT)
+
+  // Display
+  isFeatured  Boolean @default(false)
+  isPopular   Boolean @default(false)
+
+  sortOrder   Int @default(0)
+
+  // Relations
+  coupons     Coupon[]
+  deals       Deal[]
+  categories  StoreCategory[]
+  clicks      Click[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@index([isFeatured])
+  @@index([isPopular])
+  @@index([status, sortOrder])
+}
+
+
+// ============================================================
+// CATEGORY
+// ============================================================
+
+model Category {
+  id          String   @id @default(cuid())
+
+  name        String
+  slug        String   @unique
+
+  description String?
+  image       String?
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+
+  // Publishing
+  status      ContentStatus @default(PUBLISHED)
+
+  // Display
+  isFeatured  Boolean @default(false)
+  sortOrder   Int @default(0)
+
+  // Parent / Child category
+  parentId    String?
+
+  parent      Category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+
+  // Relations
+  stores      StoreCategory[]
+  coupons     CouponCategory[]
+  deals       DealCategory[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([parentId])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([status, sortOrder])
+}
+
+
+// ============================================================
+// STORE <-> CATEGORY
+// ============================================================
+
+model StoreCategory {
+  storeId     String
+  categoryId  String
+
+  store       Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  @@id([storeId, categoryId])
+  @@index([categoryId])
+}
+
+
+// ============================================================
+// COUPON
+// ============================================================
+
+model Coupon {
+  id          String   @id @default(cuid())
+
+  title       String
+  slug        String   @unique
+
+  description String?
+
+  // Coupon code
+  code        String?
+  couponType  CouponType @default(CODE)
+
+  // Discount
+  discountType  DiscountType?
+  discountValue Decimal? @db.Decimal(12, 2)
+
+  // Conditions
+  minimumOrderValue Decimal? @db.Decimal(12, 2)
+  maximumDiscount   Decimal? @db.Decimal(12, 2)
+
+  // Optional destination URL
+  couponUrl   String?
+
+  // Validity
+  startsAt    DateTime?
+  expiresAt   DateTime?
+
+  // Publishing
+  status      ContentStatus @default(DRAFT)
+
+  // Verification
+  isVerified  Boolean @default(false)
+  verifiedAt  DateTime?
+
+  // Display
+  isFeatured  Boolean @default(false)
+  sortOrder   Int @default(0)
+
+  // Cached click count
+  clickCount  Int @default(0)
+
+  // Store
+  storeId     String
+
+  store       Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  // Categories
+  categories  CouponCategory[]
+
+  // Click tracking
+  clicks      Click[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([startsAt])
+  @@index([isVerified])
+  @@index([isFeatured])
+  @@index([storeId, status])
+  @@index([storeId, expiresAt])
+  @@index([status, expiresAt])
+}
+
+
+// ============================================================
+// COUPON <-> CATEGORY
+// ============================================================
+
+model CouponCategory {
+  couponId    String
+  categoryId  String
+
+  coupon      Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([couponId, categoryId])
+  @@index([categoryId])
+}
+
+
+// ============================================================
+// DEAL
+// ============================================================
+
+model Deal {
+  id            String   @id @default(cuid())
+
+  title         String
+  slug          String   @unique
+
+  description   String?
+
+  // Product
+  productName   String?
+  productImage  String?
+  productUrl    String?
+
+  // Pricing
+  originalPrice Decimal? @db.Decimal(12, 2)
+  salePrice     Decimal? @db.Decimal(12, 2)
+
+  currency      String @default("INR")
+
+  // Discount
+  discountType  DiscountType?
+  discountValue Decimal? @db.Decimal(12, 2)
+
+  // Validity
+  startsAt      DateTime?
+  expiresAt     DateTime?
+
+  // Publishing
+  status        ContentStatus @default(DRAFT)
+
+  // Display
+  isFeatured    Boolean @default(false)
+  sortOrder     Int @default(0)
+
+  // Cached click count
+  clickCount    Int @default(0)
+
+  // Store
+  storeId       String
+
+  store         Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  // Categories
+  categories    DealCategory[]
+
+  // Click tracking
+  clicks        Click[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([startsAt])
+  @@index([isFeatured])
+  @@index([storeId, status])
+  @@index([storeId, expiresAt])
+  @@index([status, expiresAt])
+}
+
+
+// ============================================================
+// DEAL <-> CATEGORY
+// ============================================================
+
+model DealCategory {
+  dealId      String
+  categoryId  String
+
+  deal        Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([dealId, categoryId])
+  @@index([categoryId])
+}
+
+
+// ============================================================
+// CLICK TRACKING
+// ============================================================
+
+model Click {
+  id          String   @id @default(cuid())
+
+  targetType  ClickTargetType
+
+  // Coupon click
+  couponId    String?
+
+  coupon      Coupon? @relation(fields: [couponId], references: [id], onDelete: Cascade)
+
+  // Deal click
+  dealId      String?
+
+  deal        Deal? @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  // Store
+  storeId     String
+
+  store       Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  // Analytics
+  ipHash      String?
+  userAgent   String?
+  referrer    String?
+  countryCode String?
+  deviceType  String?
+
+  createdAt   DateTime @default(now())
+
+  @@index([couponId])
+  @@index([dealId])
+  @@index([storeId])
+  @@index([targetType])
+  @@index([createdAt])
+
+  @@index([couponId, createdAt])
+  @@index([dealId, createdAt])
+  @@index([storeId, createdAt])
+}
