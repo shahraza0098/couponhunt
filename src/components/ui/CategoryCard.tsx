@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FolderOpen } from 'lucide-react';
 
 interface CategoryCardProps {
   name: string;
@@ -20,32 +21,25 @@ export default function CategoryCard({
   return (
     <Link
       href={`/categories/${slug}`}
-      className="group block relative bg-[--ch-surface] border border-[--ch-border] rounded-2xl p-6 text-center card-hover overflow-hidden"
+      className="group flex items-center gap-3 bg-card text-card-foreground border border-border rounded-full py-2 px-4 card-hover shadow-sm min-w-max"
       id={`category-card-${slug}`}
     >
-      {/* Background glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-      <div className="relative">
-        <div className="text-4xl mb-3 flex justify-center group-hover:scale-110 transition-transform duration-300">
-          {image ? (
-            image.startsWith('http') ? (
-              <img src={image} alt={name} className="w-16 h-16 object-cover rounded-xl" />
-            ) : (
-              image
-            )
+      <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-lg overflow-hidden shrink-0 group-hover:bg-primary/20 transition-colors">
+        {image ? (
+          image.startsWith('http') ? (
+            <img src={image} alt={name} className="w-full h-full object-cover" />
           ) : (
-            '📂'
-          )}
-        </div>
+            image
+          )
+        ) : (
+          <FolderOpen className="w-4 h-4 text-muted-foreground" />
+        )}
+      </div>
 
-        <h3 className="font-semibold text-[--ch-text] group-hover:text-emerald-400 transition-colors">
+      <div className="flex flex-col">
+        <span className="font-bold text-sm uppercase tracking-wider text-foreground group-hover:text-primary transition-colors">
           {name}
-        </h3>
-
-        <p className="text-sm text-[--ch-text-muted] mt-2">
-          {totalOffers} {totalOffers === 1 ? 'offer' : 'offers'}
-        </p>
+        </span>
       </div>
     </Link>
   );

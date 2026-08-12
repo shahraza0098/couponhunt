@@ -6,6 +6,7 @@ import { formatDiscount, formatCurrency, formatDate, isExpired } from '@/lib/uti
 import CopyCodeButton from '@/components/ui/CopyCodeButton';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import CouponCard from '@/components/ui/CouponCard';
+import { Store as StoreIcon } from 'lucide-react';
 
 export async function generateMetadata({ params }: PageProps<'/coupons/[slug]'>): Promise<Metadata> {
   const { slug } = await params;
@@ -70,7 +71,15 @@ export default async function CouponDetailPage({ params }: PageProps<'/coupons/[
               href={`/stores/${coupon.store.slug}`}
               className="inline-flex items-center gap-3 mb-6 text-[--ch-text-muted] hover:text-[--ch-text] transition-colors"
             >
-              <span className="text-2xl">{coupon.store.logo || '🏪'}</span>
+              <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-[--ch-bg] border border-[--ch-border]">
+                {coupon.store.logo ? (
+                  coupon.store.logo.startsWith('http') ? (
+                    <img src={coupon.store.logo} alt={coupon.store.name} className="w-full h-full object-cover" />
+                  ) : coupon.store.logo
+                ) : (
+                  <StoreIcon className="w-4 h-4 text-[--ch-text-muted]" />
+                )}
+              </div>
               <span className="font-medium">{coupon.store.name}</span>
             </Link>
 
@@ -152,7 +161,15 @@ export default async function CouponDetailPage({ params }: PageProps<'/coupons/[
           <div className="bg-[--ch-surface] border border-[--ch-border] rounded-2xl p-6 mb-6">
             <h3 className="text-sm font-semibold text-[--ch-text] uppercase tracking-wider mb-4">About {coupon.store.name}</h3>
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-3xl">{coupon.store.logo || '🏪'}</span>
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[--ch-bg] border border-[--ch-border]">
+                {coupon.store.logo ? (
+                  coupon.store.logo.startsWith('http') ? (
+                    <img src={coupon.store.logo} alt={coupon.store.name} className="w-full h-full object-cover" />
+                  ) : coupon.store.logo
+                ) : (
+                  <StoreIcon className="w-6 h-6 text-[--ch-text-muted]" />
+                )}
+              </div>
               <span className="font-semibold text-[--ch-text]">{coupon.store.name}</span>
             </div>
             {coupon.store.shortDescription && (

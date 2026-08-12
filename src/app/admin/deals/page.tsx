@@ -4,6 +4,7 @@ import DataTable from '@/components/admin/DataTable';
 import { ContentStatus } from '@/app/generated/prisma/enums';
 import { deleteDealAction } from '../actions/deals';
 import { revalidatePath } from 'next/cache';
+import { ShoppingBag } from 'lucide-react';
 
 export default async function AdminDealsPage() {
   const deals = await prisma.deal.findMany({
@@ -26,7 +27,7 @@ export default async function AdminDealsPage() {
                  <div className="w-full h-full flex items-center justify-center text-xl">{deal.productImage}</div>
                )
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-xl">🔥</div>
+              <div className="w-full h-full flex items-center justify-center bg-[--ch-bg]"><ShoppingBag className="w-5 h-5 text-[--ch-text-muted]" /></div>
             )}
           </div>
           <div>

@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { LayoutDashboard, Store, FolderOpen, Ticket, Flame } from 'lucide-react';
+
 const navItems = [
-  { name: 'Dashboard', href: '/admin', icon: '📊' },
-  { name: 'Stores', href: '/admin/stores', icon: '🏪' },
-  { name: 'Categories', href: '/admin/categories', icon: '📂' },
-  { name: 'Coupons', href: '/admin/coupons', icon: '🎟️' },
-  { name: 'Deals', href: '/admin/deals', icon: '🔥' },
+  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { name: 'Stores', href: '/admin/stores', icon: Store },
+  { name: 'Categories', href: '/admin/categories', icon: FolderOpen },
+  { name: 'Coupons', href: '/admin/coupons', icon: Ticket },
+  { name: 'Deals', href: '/admin/deals', icon: Flame },
 ];
 
 export default function AdminSidebar() {
@@ -17,8 +19,8 @@ export default function AdminSidebar() {
   return (
     <div className="flex h-full flex-col bg-[--ch-surface] border-r border-[--ch-border]">
       <div className="flex h-16 shrink-0 items-center px-6 border-b border-[--ch-border]">
-        <Link href="/admin" className="flex items-center gap-2">
-          <span className="text-2xl">🎫</span>
+        <Link href="/admin" className="flex items-center gap-2 text-emerald-500">
+          <Ticket className="w-8 h-8" />
           <span className="text-lg font-bold text-[--ch-text] tracking-tight">Admin</span>
         </Link>
       </div>
@@ -26,6 +28,7 @@ export default function AdminSidebar() {
         <nav className="flex-1 space-y-1 px-4 py-6">
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+            const Icon = item.icon;
             
             return (
               <Link
@@ -37,7 +40,7 @@ export default function AdminSidebar() {
                     : 'text-[--ch-text-muted] hover:bg-[--ch-surface-hover] hover:text-[--ch-text]'
                 }`}
               >
-                <span className="text-xl">{item.icon}</span>
+                <Icon className="w-5 h-5" />
                 {item.name}
               </Link>
             );

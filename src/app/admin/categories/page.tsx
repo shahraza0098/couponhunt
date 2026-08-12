@@ -4,6 +4,7 @@ import DataTable from '@/components/admin/DataTable';
 import { ContentStatus } from '@/app/generated/prisma/enums';
 import { deleteCategoryAction } from '../actions/categories';
 import { revalidatePath } from 'next/cache';
+import { FolderOpen } from 'lucide-react';
 
 export default async function AdminCategoriesPage() {
   const categories = await prisma.category.findMany({
@@ -18,7 +19,19 @@ export default async function AdminCategoriesPage() {
       header: 'Category',
       accessor: (cat: any) => (
         <div className="flex items-center gap-3">
-          <span className="text-2xl">{cat.image || '📂'}</span>
+          <div className="w-8 h-8 flex items-center justify-center shrink-0">
+            {cat.image ? (
+              cat.image.startsWith('http') ? (
+                <img src={cat.image} alt={cat.name} className="w-full h-full object-cover rounded-md border border-[--ch-border]" />
+              ) : (
+                <span className="text-2xl">{cat.image}</span>
+              )
+            ) : (
+              <div className="w-full h-full rounded-md bg-[--ch-bg] flex items-center justify-center border border-[--ch-border]">
+                <FolderOpen className="w-4 h-4 text-[--ch-text-muted]" />
+              </div>
+            )}
+          </div>
           <div>
             <span className="font-semibold text-[--ch-text]">{cat.name}</span>
             {cat.parent && <div className="text-xs text-[--ch-text-muted]">Sub of: {cat.parent.name}</div>}

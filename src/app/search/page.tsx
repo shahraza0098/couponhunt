@@ -5,6 +5,7 @@ import StoreCard from '@/components/ui/StoreCard';
 import CouponCard from '@/components/ui/CouponCard';
 import DealCard from '@/components/ui/DealCard';
 import EmptyState from '@/components/ui/EmptyState';
+import { Search, Frown, Store as StoreIcon, Ticket, Flame } from 'lucide-react';
 
 export async function generateMetadata({ searchParams }: PageProps<'/search'>): Promise<Metadata> {
   const params = await searchParams;
@@ -25,8 +26,8 @@ export default async function SearchPage({ searchParams }: PageProps<'/search'>)
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[--ch-text]">
-          🔍 {query ? `Results for "${query}"` : 'Search'}
+        <h1 className="text-3xl font-bold text-[--ch-text] flex items-center">
+          <Search className="w-8 h-8 mr-3 text-emerald-500" /> {query ? `Results for "${query}"` : 'Search'}
         </h1>
         {query && (
           <p className="text-[--ch-text-muted] mt-2">
@@ -37,13 +38,13 @@ export default async function SearchPage({ searchParams }: PageProps<'/search'>)
 
       {!query ? (
         <EmptyState
-          icon="🔍"
+          icon={<Search className="w-16 h-16 text-emerald-500" />}
           title="Search for coupons, deals, and stores"
           description="Use the search bar above to find what you're looking for."
         />
       ) : totalResults === 0 ? (
         <EmptyState
-          icon="😕"
+          icon={<Frown className="w-16 h-16 text-[--ch-text-muted]" />}
           title={`No results for "${query}"`}
           description="Try a different search term or browse our categories."
         />
@@ -52,7 +53,7 @@ export default async function SearchPage({ searchParams }: PageProps<'/search'>)
           {/* Stores */}
           {results.stores.length > 0 && (
             <section>
-              <h2 className="section-title mb-4">🏪 Stores ({results.stores.length})</h2>
+              <h2 className="section-title mb-4 flex items-center"><StoreIcon className="w-6 h-6 mr-2 text-emerald-500" /> Stores ({results.stores.length})</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {results.stores.map((store) => (
                   <StoreCard
@@ -72,7 +73,7 @@ export default async function SearchPage({ searchParams }: PageProps<'/search'>)
           {/* Coupons */}
           {results.coupons.length > 0 && (
             <section>
-              <h2 className="section-title mb-4">🎟️ Coupons ({results.coupons.length})</h2>
+              <h2 className="section-title mb-4 flex items-center"><Ticket className="w-6 h-6 mr-2 text-emerald-500" /> Coupons ({results.coupons.length})</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {results.coupons.map((coupon) => (
                   <CouponCard
@@ -101,7 +102,7 @@ export default async function SearchPage({ searchParams }: PageProps<'/search'>)
           {/* Deals */}
           {results.deals.length > 0 && (
             <section>
-              <h2 className="section-title mb-4">🔥 Deals ({results.deals.length})</h2>
+              <h2 className="section-title mb-4 flex items-center"><Flame className="w-6 h-6 mr-2 text-orange-500" /> Deals ({results.deals.length})</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {results.deals.map((deal) => (
                   <DealCard

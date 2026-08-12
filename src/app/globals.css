@@ -1,367 +1,190 @@
 @import "tailwindcss";
 
-/* ============================================================
-   DESIGN TOKENS & THEME
-   ============================================================ */
-:root {
-  /* Brand Colors */
-  --ch-bg: #0b0f1a;
-  --ch-bg-alt: #111827;
-  --ch-surface: #1a2035;
-  --ch-surface-hover: #222b45;
-  --ch-border: rgba(255, 255, 255, 0.08);
-  --ch-border-bright: rgba(255, 255, 255, 0.15);
-
-  /* Accent Colors */
-  --ch-emerald: #10b981;
-  --ch-emerald-glow: rgba(16, 185, 129, 0.25);
-  --ch-teal: #14b8a6;
-  --ch-amber: #f59e0b;
-  --ch-amber-glow: rgba(245, 158, 11, 0.25);
-  --ch-purple: #8b5cf6;
-  --ch-purple-glow: rgba(139, 92, 246, 0.25);
-  --ch-rose: #f43f5e;
-  --ch-sky: #38bdf8;
-
-  /* Text */
-  --ch-text: #f1f5f9;
-  --ch-text-muted: #94a3b8;
-  --ch-text-faint: #64748b;
-
-  /* Gradients */
-  --ch-gradient-hero: linear-gradient(135deg, #0b0f1a 0%, #1a1040 50%, #0b0f1a 100%);
-  --ch-gradient-card: linear-gradient(145deg, rgba(26, 32, 53, 0.8), rgba(17, 24, 39, 0.6));
-  --ch-gradient-emerald: linear-gradient(135deg, #059669, #10b981);
-  --ch-gradient-amber: linear-gradient(135deg, #d97706, #f59e0b);
-  --ch-gradient-purple: linear-gradient(135deg, #7c3aed, #8b5cf6);
-
-  /* Shadows */
-  --ch-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --ch-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --ch-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
-  --ch-shadow-glow-emerald: 0 0 20px rgba(16, 185, 129, 0.15);
-  --ch-shadow-glow-amber: 0 0 20px rgba(245, 158, 11, 0.15);
-
-  /* Radius */
-  --ch-radius-sm: 8px;
-  --ch-radius-md: 12px;
-  --ch-radius-lg: 16px;
-  --ch-radius-xl: 24px;
-
-  /* Font */
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
-
-  /* Foreground/Background for Tailwind */
-  --background: #0b0f1a;
-  --foreground: #f1f5f9;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
-/* ============================================================
-   BASE STYLES
-   ============================================================ */
-body {
-  background: var(--ch-bg);
-  color: var(--ch-text);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  :root {
+    /* Base App Colors (Clean off-white background) */
+    --background: #f8f9fa;
+    --foreground: #111827;
+    
+    /* Vibrant Theme Colors */
+    --ch-yellow: #FFE500;
+    --ch-red: #E51937;
+    --ch-purple: #4C2882;
+    --ch-purple-light: #5e32a1;
+
+    /* Shadcn UI Variables mapped to Theme */
+    --card: #ffffff;
+    --card-foreground: #111827;
+    
+    --popover: #ffffff;
+    --popover-foreground: #111827;
+    
+    --primary: var(--ch-yellow);
+    --primary-foreground: #000000;
+    
+    --secondary: var(--ch-red);
+    --secondary-foreground: #ffffff;
+    
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    
+    --accent: #f1f5f9;
+    --accent-foreground: #111827;
+    
+    --destructive: var(--ch-red);
+    --destructive-foreground: #ffffff;
+    
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: var(--ch-purple);
+    
+    --radius: 0.5rem;
+
+    /* Legacy Custom Variables mapped to new flat aesthetic */
+    --ch-bg: var(--background);
+    --ch-bg-alt: #ffffff;
+    --ch-surface: #ffffff;
+    --ch-surface-hover: #f8f9fa;
+    --ch-border: var(--border);
+    --ch-border-bright: #cbd5e1;
+    
+    --ch-text: var(--foreground);
+    --ch-text-muted: var(--muted-foreground);
+    --ch-text-faint: #94a3b8;
+  }
 }
 
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--ch-bg);
+  background: var(--background);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--ch-surface-hover);
+  background: var(--muted-foreground);
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ch-text-faint);
+/* Typography Helpers */
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
 }
 
-/* ============================================================
-   ANIMATIONS
-   ============================================================ */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 8px rgba(16, 185, 129, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes countPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Utility animation classes */
-.animate-shimmer {
-  background: linear-gradient(90deg, var(--ch-surface) 25%, var(--ch-surface-hover) 50%, var(--ch-surface) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.5s ease-out;
-}
-
-.animate-slide-down {
-  animation: slideDown 0.3s ease-out;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s ease-in-out infinite;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.3s ease-out;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* ============================================================
-   GLASSMORPHISM
-   ============================================================ */
-.glass {
-  background: rgba(26, 32, 53, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--ch-border);
-}
-
-.glass-strong {
-  background: rgba(26, 32, 53, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--ch-border-bright);
-}
-
-/* ============================================================
-   CARD STYLES
-   ============================================================ */
-.card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--ch-shadow-lg);
-  border-color: var(--ch-border-bright);
-}
-
-/* Coupon dashed border effect */
-.coupon-border {
-  border: 2px dashed var(--ch-border-bright);
-  border-radius: var(--ch-radius-md);
-  position: relative;
-}
-
-.coupon-border::before,
-.coupon-border::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: var(--ch-bg);
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.coupon-border::before {
-  left: -12px;
-}
-
-.coupon-border::after {
-  right: -12px;
-}
-
-/* ============================================================
-   BADGE STYLES
-   ============================================================ */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.badge-emerald {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-.badge-amber {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.25);
-}
-
-.badge-purple {
-  background: rgba(139, 92, 246, 0.15);
-  color: #a78bfa;
-  border: 1px solid rgba(139, 92, 246, 0.25);
-}
-
-.badge-rose {
-  background: rgba(244, 63, 94, 0.15);
-  color: #fb7185;
-  border: 1px solid rgba(244, 63, 94, 0.25);
-}
-
-.badge-sky {
-  background: rgba(56, 189, 248, 0.15);
-  color: #7dd3fc;
-  border: 1px solid rgba(56, 189, 248, 0.25);
-}
-
-.badge-neutral {
-  background: rgba(148, 163, 184, 0.1);
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-/* ============================================================
-   BUTTON STYLES
-   ============================================================ */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 24px;
-  background: var(--ch-gradient-emerald);
-  color: white;
-  font-weight: 600;
-  border-radius: var(--ch-radius-lg);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-}
-
-.btn-primary:hover {
-  box-shadow: var(--ch-shadow-glow-emerald);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 24px;
-  background: var(--ch-surface);
-  color: var(--ch-text);
-  font-weight: 600;
-  border-radius: var(--ch-radius-lg);
-  border: 1px solid var(--ch-border-bright);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-}
-
-.btn-secondary:hover {
-  background: var(--ch-surface-hover);
-  transform: translateY(-1px);
-}
-
-/* ============================================================
-   CODE DISPLAY
-   ============================================================ */
-.coupon-code {
-  font-family: var(--font-mono);
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-/* ============================================================
-   SECTION HEADERS
-   ============================================================ */
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--ch-text);
-  letter-spacing: -0.02em;
-}
-
-.section-subtitle {
-  font-size: 0.9375rem;
-  color: var(--ch-text-muted);
-  margin-top: 4px;
-}
-
-/* ============================================================
-   STAGGER ANIMATION for grids
-   ============================================================ */
-.stagger-grid > * {
-  animation: slideUp 0.5s ease-out both;
-}
-
+.animate-fade-in { animation: fadeIn 0.4s ease-out; }
+.stagger-grid > * { animation: slideUp 0.5s ease-out both; }
 .stagger-grid > *:nth-child(1) { animation-delay: 0ms; }
 .stagger-grid > *:nth-child(2) { animation-delay: 50ms; }
 .stagger-grid > *:nth-child(3) { animation-delay: 100ms; }
 .stagger-grid > *:nth-child(4) { animation-delay: 150ms; }
-.stagger-grid > *:nth-child(5) { animation-delay: 200ms; }
-.stagger-grid > *:nth-child(6) { animation-delay: 250ms; }
-.stagger-grid > *:nth-child(7) { animation-delay: 300ms; }
-.stagger-grid > *:nth-child(8) { animation-delay: 350ms; }
+
+/* Custom Purple Button */
+.btn-purple {
+  background-color: var(--ch-purple);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-purple:hover {
+  background-color: var(--ch-purple-light);
+}
+/* Coupon dashed cutout effect on buttons */
+.btn-purple-cutout {
+  position: relative;
+}
+.btn-purple-cutout::before, .btn-purple-cutout::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: var(--card);
+  border-radius: 50%;
+}
+.btn-purple-cutout::before { left: -6px; }
+.btn-purple-cutout::after { right: -6px; }
+
+/* Overriding old btn classes */
+.btn-primary {
+  @apply bg-primary text-primary-foreground font-bold px-4 py-2 rounded-lg transition-opacity hover:opacity-90;
+}
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground font-bold px-4 py-2 rounded-lg transition-opacity hover:opacity-90;
+}
+
+/* Pill Badges */
+.badge {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-muted text-muted-foreground border-none;
+}
+.badge-emerald { @apply bg-green-100 text-green-700; }
+.badge-amber { @apply bg-yellow-100 text-yellow-700; }
+.badge-purple { @apply bg-purple-100 text-purple-700; }
+.badge-rose { @apply bg-red-100 text-red-700; }
+.badge-neutral { @apply bg-gray-200 text-gray-700; }
+
+.card-hover {
+  @apply transition-transform hover:-translate-y-1 hover:shadow-lg shadow-sm;
+}

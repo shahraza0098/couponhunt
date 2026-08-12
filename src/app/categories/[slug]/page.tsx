@@ -5,6 +5,7 @@ import { getCategoryBySlug, getCategoryCoupons, getCategoryDeals } from '@/lib/q
 import CouponCard from '@/components/ui/CouponCard';
 import DealCard from '@/components/ui/DealCard';
 import EmptyState from '@/components/ui/EmptyState';
+import { FolderOpen, Ticket, Flame } from 'lucide-react';
 
 export async function generateMetadata({ params }: PageProps<'/categories/[slug]'>): Promise<Metadata> {
   const { slug } = await params;
@@ -52,7 +53,15 @@ export default async function CategoryDetailPage({ params }: PageProps<'/categor
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-4 mb-3">
-          <span className="text-4xl">{category.image || '📂'}</span>
+          {category.image ? (
+            category.image.startsWith('http') ? (
+              <img src={category.image} alt={category.name} className="w-10 h-10 object-cover rounded-md" />
+            ) : (
+              <span className="text-4xl">{category.image}</span>
+            )
+          ) : (
+            <FolderOpen className="w-10 h-10 text-[--ch-text-muted]" />
+          )}
           <h1 className="text-3xl font-bold text-[--ch-text]">{category.name}</h1>
         </div>
         {category.description && (
@@ -84,7 +93,7 @@ export default async function CategoryDetailPage({ params }: PageProps<'/categor
 
       {/* Coupons */}
       <section className="mb-12" id="category-coupons">
-        <h2 className="section-title mb-6">🎟️ {category.name} Coupons</h2>
+        <h2 className="section-title mb-6 flex items-center"><Ticket className="w-6 h-6 mr-2 text-emerald-500" /> {category.name} Coupons</h2>
         {coupons.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-grid">
             {coupons.map((coupon) => (
@@ -109,13 +118,13 @@ export default async function CategoryDetailPage({ params }: PageProps<'/categor
             ))}
           </div>
         ) : (
-          <EmptyState icon="🎟️" title="No coupons in this category" description="Check back later for new coupons." />
+          <EmptyState icon={<Ticket className="w-16 h-16 text-emerald-500" />} title="No coupons in this category" description="Check back later for new coupons." />
         )}
       </section>
 
       {/* Deals */}
       <section id="category-deals">
-        <h2 className="section-title mb-6">🔥 {category.name} Deals</h2>
+        <h2 className="section-title mb-6 flex items-center"><Flame className="w-6 h-6 mr-2 text-orange-500" /> {category.name} Deals</h2>
         {deals.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-grid">
             {deals.map((deal) => (
@@ -142,7 +151,7 @@ export default async function CategoryDetailPage({ params }: PageProps<'/categor
             ))}
           </div>
         ) : (
-          <EmptyState icon="🔥" title="No deals in this category" description="Check back later for hot deals." />
+          <EmptyState icon={<Flame className="w-16 h-16 text-orange-500" />} title="No deals in this category" description="Check back later for hot deals." />
         )}
       </section>
     </div>

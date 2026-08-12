@@ -7,6 +7,7 @@ import StoreCard from '@/components/ui/StoreCard';
 import CouponCard from '@/components/ui/CouponCard';
 import DealCard from '@/components/ui/DealCard';
 import CategoryCard from '@/components/ui/CategoryCard';
+import { Store, ShoppingBag } from 'lucide-react';
 
 export default async function HomePage() {
   const [stores, coupons, deals, categories] = await Promise.all([
@@ -17,228 +18,155 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="animate-fade-in">
-      {/* ======================== HERO ======================== */}
-      <section
-        className="relative overflow-hidden"
-        style={{ background: 'var(--ch-gradient-hero)' }}
-        id="hero"
-      >
-        {/* Decorative gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+    <div className="animate-fade-in bg-background min-h-screen pb-20">
+      
+      {/* ======================== HERO (Splash Style) ======================== */}
+      <section className="bg-white pt-16 pb-12 px-4 sm:px-6 lg:px-8 border-b border-border text-center relative overflow-hidden" id="hero">
+        
+        {/* Faint Background pattern / logos (mimicking first screen) */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none flex flex-wrap justify-center gap-8 pt-10">
+          {stores.map((s, i) => (
+             <div key={i} className="text-4xl text-black flex items-center justify-center">
+                {s.logo && s.logo.startsWith('http') ? <img src={s.logo} alt="logo" className="w-10 h-10 object-contain grayscale" /> : <Store className="w-10 h-10" />}
+             </div>
+          ))}
+        </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full mb-6 animate-slide-up">
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            <span className="text-sm text-emerald-400 font-medium">
-              {coupons.length + deals.length}+ active offers today
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[--ch-text] mb-6 animate-slide-up">
-            Hunt the Best{' '}
-            <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">
-              Coupons & Deals
-            </span>
+        <div className="relative z-10 max-w-3xl mx-auto mt-8">
+          <p className="text-red-600 font-bold tracking-widest text-sm uppercase mb-3">Welcome to CouponHunt</p>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground uppercase leading-[1.1] mb-6">
+            Smart Savings<br/>With a Smart<br/>Choice
           </h1>
-
-          <p className="text-lg sm:text-xl text-[--ch-text-muted] max-w-2xl mx-auto mb-10 animate-slide-up">
-            Discover verified promo codes, exclusive discounts, and hot deals from top Indian stores. Save money on every purchase.
+          <p className="text-muted-foreground text-sm max-w-md mx-auto mb-10 leading-relaxed font-medium">
+            Discover verified promo codes, exclusive discounts, and hot deals from top stores. Save money on every purchase.
           </p>
 
-          <div className="flex items-center justify-center gap-4 animate-slide-up">
-            <Link href="/coupons" className="btn-primary text-base px-8 py-3">
-              🎟️ Browse Coupons
-            </Link>
-            <Link href="/deals" className="btn-secondary text-base px-8 py-3">
-              🔥 View Deals
-            </Link>
-          </div>
+          <Link href="#hot-deals">
+            <button className="bg-primary text-black font-black uppercase tracking-wider py-4 px-10 rounded-xl w-full max-w-sm hover:scale-[1.02] transition-transform shadow-sm text-lg">
+              Start Hunting
+            </button>
+          </Link>
+        </div>
+      </section>
 
-          {/* Stats */}
-          <div className="mt-14 grid grid-cols-3 gap-8 max-w-lg mx-auto animate-slide-up">
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-[--ch-text]">{stores.length}+</div>
-              <div className="text-sm text-[--ch-text-muted]">Stores</div>
+      {/* ======================== FEATURED BANNER (Red Promo) ======================== */}
+      <section className="px-4 sm:px-6 lg:px-8 -mt-6 relative z-20 max-w-7xl mx-auto">
+        <div className="bg-secondary rounded-2xl p-6 sm:p-8 flex items-center justify-between shadow-md overflow-hidden relative">
+          
+          <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-black/10 transform skew-x-12 translate-x-10 pointer-events-none" />
+          
+          <div className="relative z-10 text-white w-full">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="bg-black text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Featured</span>
+              <span className="font-bold text-sm tracking-wide">AMAZON</span>
             </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-emerald-400">{coupons.length}+</div>
-              <div className="text-sm text-[--ch-text-muted]">Coupons</div>
+            <h2 className="text-3xl sm:text-5xl font-black uppercase mb-1">Get 40% Off</h2>
+            <p className="text-white/90 font-medium text-sm sm:text-base mb-4">On orders over $50</p>
+            
+            <div className="inline-flex bg-primary text-black font-black uppercase rounded-lg overflow-hidden items-center group cursor-pointer shadow-sm">
+               <span className="px-4 py-2 text-sm border-r border-black/10">Promo Code</span>
+               <span className="px-4 py-2 text-sm bg-white group-hover:bg-gray-100 transition-colors">SAVE40</span>
             </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-amber-400">{deals.length}+</div>
-              <div className="text-sm text-[--ch-text-muted]">Deals</div>
-            </div>
+          </div>
+          
+          <div className="relative z-10 hidden sm:block">
+             <ShoppingBag className="w-28 h-28 text-white opacity-80" strokeWidth={1.5} />
           </div>
         </div>
       </section>
 
-      {/* ======================== POPULAR STORES ======================== */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" id="popular-stores">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="section-title">🏪 Popular Stores</h2>
-            <p className="section-subtitle">Top brands with the best offers</p>
-          </div>
-          <Link href="/stores" className="btn-secondary text-sm">
-            View All →
-          </Link>
+      {/* ======================== CATEGORIES (Pills) ======================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-black text-foreground uppercase tracking-wide">Categories</h2>
+          <Link href="/categories" className="text-red-500 font-bold text-xs uppercase tracking-wider hover:underline">See All</Link>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-grid">
-          {stores.map((store) => (
-            <StoreCard
-              key={store.id}
-              name={store.name}
-              slug={store.slug}
-              logo={store.logo}
-              shortDescription={store.shortDescription}
-              couponCount={store._count.coupons}
-              dealCount={store._count.deals}
-            />
+        <div className="flex overflow-x-auto gap-3 pb-4 snap-x hide-scrollbar">
+          <Link href="/categories" className="group flex items-center gap-2 bg-primary text-black font-bold border-none rounded-full py-2 px-5 shadow-sm min-w-max snap-start hover:scale-105 transition-transform">
+             <span className="uppercase text-xs tracking-wider">All Categories</span>
+          </Link>
+          {categories.map((cat) => (
+            <div key={cat.id} className="snap-start">
+               <CategoryCard {...cat} couponCount={cat._count.coupons} dealCount={cat._count.deals} />
+            </div>
           ))}
         </div>
       </section>
 
-      {/* ======================== FEATURED COUPONS ======================== */}
-      <section className="bg-[--ch-bg-alt] border-y border-[--ch-border]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" id="featured-coupons">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="section-title">🎟️ Featured Coupons</h2>
-              <p className="section-subtitle">Verified coupon codes and promo codes</p>
-            </div>
-            <Link href="/coupons" className="btn-secondary text-sm">
-              View All →
-            </Link>
+      {/* ======================== TOP STORES ======================== */}
+      <section className="bg-white py-10 mt-6 border-y border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-black text-foreground uppercase tracking-wide">Top Stores</h2>
+            <Link href="/stores" className="text-red-500 font-bold text-xs uppercase tracking-wider hover:underline">See All</Link>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-grid">
-            {coupons.map((coupon) => (
-              <CouponCard
-                key={coupon.id}
-                id={coupon.id}
-                title={coupon.title}
-                slug={coupon.slug}
-                code={coupon.code}
-                couponType={coupon.couponType}
-                discountType={coupon.discountType}
-                discountValue={coupon.discountValue ? Number(coupon.discountValue) : null}
-                expiresAt={coupon.expiresAt}
-                isVerified={coupon.isVerified}
-                isFeatured={coupon.isFeatured}
-                clickCount={coupon.clickCount}
-                storeName={coupon.store.name}
-                storeSlug={coupon.store.slug}
-                storeLogo={coupon.store.logo}
-                storeId={coupon.storeId}
-              />
+          
+          <div className="flex overflow-x-auto gap-4 pb-4 snap-x hide-scrollbar">
+            {stores.map((store) => (
+              <div key={store.id} className="snap-start w-24 sm:w-32 flex-shrink-0">
+                <StoreCard
+                  name={store.name}
+                  slug={store.slug}
+                  logo={store.logo}
+                  shortDescription={store.shortDescription}
+                  couponCount={store._count.coupons}
+                  dealCount={store._count.deals}
+                />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ======================== HOT DEALS ======================== */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" id="hot-deals">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="section-title">🔥 Hot Deals</h2>
-            <p className="section-subtitle">Best prices on top products</p>
-          </div>
-          <Link href="/deals" className="btn-secondary text-sm">
-            View All →
-          </Link>
+      {/* ======================== HOT OFFERS (Deals) ======================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10" id="hot-deals">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-black text-foreground uppercase tracking-wide">Hot Offers</h2>
+          <Link href="/deals" className="text-red-500 font-bold text-xs uppercase tracking-wider hover:underline">See All</Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-grid">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid">
           {deals.map((deal) => (
             <DealCard
               key={deal.id}
-              id={deal.id}
-              title={deal.title}
-              slug={deal.slug}
-              productName={deal.productName}
-              productImage={deal.productImage}
+              {...deal}
               originalPrice={deal.originalPrice ? Number(deal.originalPrice) : null}
               salePrice={deal.salePrice ? Number(deal.salePrice) : null}
-              currency={deal.currency}
-              discountType={deal.discountType}
               discountValue={deal.discountValue ? Number(deal.discountValue) : null}
-              expiresAt={deal.expiresAt}
-              isFeatured={deal.isFeatured}
-              clickCount={deal.clickCount}
               storeName={deal.store.name}
               storeSlug={deal.store.slug}
               storeLogo={deal.store.logo}
-              storeId={deal.storeId}
             />
           ))}
         </div>
       </section>
 
-      {/* ======================== BROWSE BY CATEGORY ======================== */}
-      <section className="bg-[--ch-bg-alt] border-y border-[--ch-border]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" id="categories">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="section-title">📂 Browse by Category</h2>
-              <p className="section-subtitle">Find offers in your favourite categories</p>
-            </div>
-            <Link href="/categories" className="btn-secondary text-sm">
-              View All →
-            </Link>
-          </div>
+      {/* ======================== STORE COUPONS ======================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-10" id="featured-coupons">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-black text-foreground uppercase tracking-wide">Store Coupons</h2>
+          <Link href="/coupons" className="text-red-500 font-bold text-xs uppercase tracking-wider hover:underline">See All</Link>
+        </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 stagger-grid">
-            {categories.map((cat) => (
-              <CategoryCard
-                key={cat.id}
-                name={cat.name}
-                slug={cat.slug}
-                image={cat.image}
-                couponCount={cat._count.coupons}
-                dealCount={cat._count.deals}
-              />
-            ))}
-          </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-grid">
+          {coupons.map((coupon) => (
+            <CouponCard
+              key={coupon.id}
+              {...coupon}
+              discountValue={coupon.discountValue ? Number(coupon.discountValue) : null}
+              storeName={coupon.store.name}
+              storeSlug={coupon.store.slug}
+              storeLogo={coupon.store.logo}
+            />
+          ))}
         </div>
       </section>
-
-      {/* ======================== CTA / VALUE PROP ======================== */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20" id="value-prop">
-        <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500/10 via-[--ch-surface] to-purple-500/10 border border-[--ch-border] rounded-3xl p-10 sm:p-14 text-center">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
-
-          <div className="relative">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[--ch-text] mb-4">
-              Never Pay Full Price Again
-            </h2>
-            <p className="text-lg text-[--ch-text-muted] max-w-xl mx-auto mb-8">
-              CouponHunt helps you find the best coupons and deals from trusted Indian stores. All offers are verified and updated daily.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
-              <div className="p-4">
-                <div className="text-3xl mb-2">✅</div>
-                <h3 className="font-semibold text-[--ch-text] mb-1">Verified Offers</h3>
-                <p className="text-sm text-[--ch-text-muted]">Every coupon is tested and verified before listing</p>
-              </div>
-              <div className="p-4">
-                <div className="text-3xl mb-2">⚡</div>
-                <h3 className="font-semibold text-[--ch-text] mb-1">Always Updated</h3>
-                <p className="text-sm text-[--ch-text-muted]">New deals and coupons added daily</p>
-              </div>
-              <div className="p-4">
-                <div className="text-3xl mb-2">💰</div>
-                <h3 className="font-semibold text-[--ch-text] mb-1">Maximum Savings</h3>
-                <p className="text-sm text-[--ch-text-muted]">Find the best discounts across all categories</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
+      {/* Utility style for hide scrollbar locally */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}} />
     </div>
   );
 }

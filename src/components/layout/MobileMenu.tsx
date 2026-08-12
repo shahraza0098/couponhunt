@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import SearchBar from './SearchBar';
-
+import { X } from 'lucide-react';
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
@@ -43,9 +43,7 @@ export default function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) 
             className="p-2 text-[--ch-text-muted] hover:text-[--ch-text] transition-colors"
             aria-label="Close menu"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X className="w-5 h-5" />
           </button>
         </div>
 

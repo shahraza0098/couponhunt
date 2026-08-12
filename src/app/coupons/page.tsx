@@ -3,6 +3,7 @@ import { getAllCoupons } from '@/lib/queries/coupons';
 import CouponCard from '@/components/ui/CouponCard';
 import Pagination from '@/components/ui/Pagination';
 import EmptyState from '@/components/ui/EmptyState';
+import { Ticket } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'All Coupons & Promo Codes',
@@ -18,7 +19,7 @@ export default async function CouponsPage({ searchParams }: PageProps<'/coupons'
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[--ch-text]">🎟️ All Coupons & Promo Codes</h1>
+        <h1 className="text-3xl font-bold text-[--ch-text] flex items-center"><Ticket className="w-8 h-8 mr-3 text-emerald-500" /> All Coupons & Promo Codes</h1>
         <p className="text-[--ch-text-muted] mt-2">
           {total} verified coupons and promo codes available
         </p>
@@ -51,7 +52,7 @@ export default async function CouponsPage({ searchParams }: PageProps<'/coupons'
           <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/coupons" />
         </>
       ) : (
-        <EmptyState icon="🎟️" title="No coupons available" description="Check back later for new coupons and promo codes." />
+        <EmptyState icon={<Ticket className="w-16 h-16 text-emerald-500" />} title="No coupons available" description="Check back later for new coupons and promo codes." />
       )}
     </div>
   );

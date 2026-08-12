@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { loginAction } from '../actions/auth';
+import { Ticket } from 'lucide-react';
 
 const initialState = {
   error: '',
@@ -13,7 +14,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-[--ch-bg] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center text-5xl mb-6">🎫</div>
+        <div className="flex justify-center mb-6"><Ticket className="w-16 h-16 text-emerald-500" /></div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-[--ch-text]">
           CouponHunt Admin
         </h2>

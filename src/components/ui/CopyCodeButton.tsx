@@ -53,24 +53,24 @@ export default function CopyCodeButton({ code, maskedCode, couponId, storeId }: 
   return (
     <button
       onClick={handleClick}
-      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border-2 border-dashed transition-all duration-300 cursor-pointer ${
+      className={`w-full flex items-center justify-between px-4 py-3 rounded-lg font-bold uppercase transition-all duration-300 cursor-pointer relative overflow-hidden ${
         revealed
-          ? 'border-emerald-500/40 bg-emerald-500/10'
-          : 'border-[--ch-border-bright] bg-[--ch-bg] hover:border-emerald-500/30'
+          ? 'bg-green-500 text-white shadow-sm'
+          : 'btn-purple btn-purple-cutout text-white'
       }`}
       id={`copy-code-${couponId}`}
     >
-      <span className="coupon-code text-[--ch-text]">
+      <span className="font-mono tracking-widest text-lg">
         {revealed ? code : maskedCode}
       </span>
-      <span className={`text-xs font-semibold px-3 py-1 rounded-lg transition-all ${
+      <span className={`text-xs px-3 py-1 rounded-md transition-all ${
         copied
-          ? 'bg-emerald-500 text-white'
+          ? 'bg-white/20'
           : revealed
-            ? 'bg-emerald-500/20 text-emerald-400'
-            : 'bg-[--ch-surface] text-[--ch-text-muted]'
+            ? 'bg-black/10'
+            : 'bg-white/20'
       }`}>
-        {copied ? '✓ Copied!' : revealed ? 'Copy' : 'Reveal Code'}
+        {copied ? '✓ COPIED!' : revealed ? 'COPY' : 'GET CODE'}
       </span>
     </button>
   );

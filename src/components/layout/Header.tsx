@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
 import MobileMenu from './MobileMenu';
+import { ShoppingBag, Menu } from 'lucide-react';
 
 const navLinks = [
   { href: '/stores', label: 'Stores' },
@@ -17,7 +18,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 glass-strong" id="header">
+      <header className="sticky top-0 z-50 bg-primary text-black shadow-sm" id="header">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between gap-4">
             {/* Logo */}
@@ -26,8 +27,8 @@ export default function Header() {
               className="flex items-center gap-2 shrink-0"
               id="logo"
             >
-              <span className="text-2xl">🎯</span>
-              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+              <ShoppingBag className="w-7 h-7 text-black" strokeWidth={2.5} />
+              <span className="text-xl font-black uppercase tracking-widest text-black">
                 CouponHunt
               </span>
             </Link>
@@ -38,7 +39,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-sm font-medium text-[--ch-text-muted] hover:text-[--ch-text] rounded-lg hover:bg-white/5 transition-colors"
+                  className="px-4 py-2 text-sm font-bold uppercase tracking-wider text-black hover:bg-black/5 rounded-lg transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -47,25 +48,28 @@ export default function Header() {
 
             {/* Search */}
             <div className="hidden sm:block flex-1 max-w-md">
-              <SearchBar />
+              <div className="relative">
+                <SearchBar />
+                {/* This relies on SearchBar being transparent or white, SearchBar might need an update if it looks bad on yellow, but let's assume it has its own background. */}
+              </div>
             </div>
 
             {/* Mobile burger */}
             <button
-              className="md:hidden p-2 text-[--ch-text-muted] hover:text-[--ch-text] transition-colors"
+              className="md:hidden p-2 text-black hover:bg-black/5 rounded transition-colors"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               id="mobile-menu-btn"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M3 12h18M3 6h18M3 18h18" />
-              </svg>
+              <Menu className="w-6 h-6" strokeWidth={2.5} />
             </button>
           </div>
 
           {/* Mobile search - below header */}
           <div className="sm:hidden pb-3">
-            <SearchBar />
+            <div className="bg-white rounded-lg p-1">
+              <SearchBar />
+            </div>
           </div>
         </div>
       </header>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Ticket } from 'lucide-react';
 
 const footerLinks = {
   explore: [
@@ -32,7 +33,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">🎯</span>
+              <Ticket className="w-8 h-8 text-emerald-500" />
               <span className="text-lg font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                 CouponHunt
               </span>

@@ -1,6 +1,7 @@
 import prisma from '@/lib/db';
 import { ContentStatus } from '@/app/generated/prisma/enums';
 import Link from 'next/link';
+import { Store, Ticket, Flame, FolderOpen } from 'lucide-react';
 
 export default async function AdminDashboardPage() {
   const [
@@ -32,10 +33,10 @@ export default async function AdminDashboardPage() {
   ]);
 
   const stats = [
-    { name: 'Stores', total: totalStores, active: publishedStores, icon: '🏪', href: '/admin/stores' },
-    { name: 'Coupons', total: totalCoupons, active: publishedCoupons, icon: '🎟️', href: '/admin/coupons' },
-    { name: 'Deals', total: totalDeals, active: publishedDeals, icon: '🔥', href: '/admin/deals' },
-    { name: 'Categories', total: totalCategories, active: totalCategories, icon: '📂', href: '/admin/categories' },
+    { name: 'Stores', total: totalStores, active: publishedStores, icon: Store, href: '/admin/stores' },
+    { name: 'Coupons', total: totalCoupons, active: publishedCoupons, icon: Ticket, href: '/admin/coupons' },
+    { name: 'Deals', total: totalDeals, active: publishedDeals, icon: Flame, href: '/admin/deals' },
+    { name: 'Categories', total: totalCategories, active: totalCategories, icon: FolderOpen, href: '/admin/categories' },
   ];
 
   return (
@@ -47,10 +48,12 @@ export default async function AdminDashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
           <div key={stat.name} className="overflow-hidden rounded-2xl bg-[--ch-surface] border border-[--ch-border] p-6 shadow-sm">
             <div className="flex items-center gap-4">
-              <div className="text-4xl">{stat.icon}</div>
+              <div className="text-4xl text-emerald-500"><Icon className="w-10 h-10" /></div>
               <div>
                 <p className="text-sm font-medium text-[--ch-text-muted]">{stat.name}</p>
                 <div className="flex items-baseline gap-2">
@@ -65,7 +68,7 @@ export default async function AdminDashboardPage() {
               </Link>
             </div>
           </div>
-        ))}
+        )})}
       </div>
 
       {/* Recent Activity */}
@@ -81,8 +84,12 @@ export default async function AdminDashboardPage() {
               <li key={click.id} className="px-6 py-4 hover:bg-[--ch-surface-hover]">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-[--ch-text]">
-                      {click.targetType === 'COUPON' ? '🎟️ Coupon Click' : '🔥 Deal Click'}
+                    <p className="text-sm font-medium text-[--ch-text] flex items-center gap-1.5">
+                      {click.targetType === 'COUPON' ? (
+                        <><Ticket className="w-4 h-4 text-emerald-500" /> Coupon Click</>
+                      ) : (
+                        <><Flame className="w-4 h-4 text-orange-500" /> Deal Click</>
+                      )}
                     </p>
                     <p className="text-xs text-[--ch-text-muted] mt-1">
                       {click.coupon?.title || click.deal?.title} at {click.store.name}

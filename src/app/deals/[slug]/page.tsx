@@ -5,6 +5,7 @@ import { getDealBySlug, getRelatedDeals } from '@/lib/queries/deals';
 import { formatDiscount, formatCurrency, formatDate, isExpired } from '@/lib/utils/formatting';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import DealCard from '@/components/ui/DealCard';
+import { ShoppingBag, Store as StoreIcon, ShoppingCart } from 'lucide-react';
 
 export async function generateMetadata({ params }: PageProps<'/deals/[slug]'>): Promise<Metadata> {
   const { slug } = await params;
@@ -50,7 +51,15 @@ export default async function DealDetailPage({ params }: PageProps<'/deals/[slug
           <div className="bg-[--ch-surface] border border-[--ch-border] rounded-2xl overflow-hidden">
             {/* Product image */}
             <div className="h-56 sm:h-72 bg-[--ch-bg] flex items-center justify-center border-b border-[--ch-border] relative">
-              <span className="text-7xl">{deal.productImage || '🛍️'}</span>
+              <div className="text-7xl flex items-center justify-center w-full h-full">
+                {deal.productImage ? (
+                  deal.productImage.startsWith('http') ? (
+                    <img src={deal.productImage} alt={deal.title} className="w-full h-full object-cover" />
+                  ) : deal.productImage
+                ) : (
+                  <ShoppingBag className="w-20 h-20 text-[--ch-text-muted]" />
+                )}
+              </div>
               <div className="absolute top-4 left-4">
                 <span className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-sm font-bold rounded-xl shadow-lg">
                   {discount}
@@ -100,7 +109,15 @@ export default async function DealDetailPage({ params }: PageProps<'/deals/[slug
                 href={`/stores/${deal.store.slug}`}
                 className="inline-flex items-center gap-3 mb-6 text-[--ch-text-muted] hover:text-[--ch-text] transition-colors"
               >
-                <span className="text-2xl">{deal.store.logo || '🏪'}</span>
+                <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-[--ch-bg] border border-[--ch-border]">
+                  {deal.store.logo ? (
+                    deal.store.logo.startsWith('http') ? (
+                      <img src={deal.store.logo} alt={deal.store.name} className="w-full h-full object-cover" />
+                    ) : deal.store.logo
+                  ) : (
+                    <StoreIcon className="w-4 h-4 text-[--ch-text-muted]" />
+                  )}
+                </div>
                 <span className="font-medium">{deal.store.name}</span>
               </Link>
 
@@ -113,7 +130,7 @@ export default async function DealDetailPage({ params }: PageProps<'/deals/[slug
                     rel="noopener noreferrer"
                     className="btn-primary w-full text-center text-base py-4"
                   >
-                    🛒 Get This Deal
+                    <ShoppingCart className="w-5 h-5 mr-2 inline-block" /> Get This Deal
                   </a>
                 </div>
               )}
@@ -161,7 +178,15 @@ export default async function DealDetailPage({ params }: PageProps<'/deals/[slug
           <div className="bg-[--ch-surface] border border-[--ch-border] rounded-2xl p-6 mb-6">
             <h3 className="text-sm font-semibold text-[--ch-text] uppercase tracking-wider mb-4">About {deal.store.name}</h3>
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-3xl">{deal.store.logo || '🏪'}</span>
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[--ch-bg] border border-[--ch-border]">
+                {deal.store.logo ? (
+                  deal.store.logo.startsWith('http') ? (
+                    <img src={deal.store.logo} alt={deal.store.name} className="w-full h-full object-cover" />
+                  ) : deal.store.logo
+                ) : (
+                  <StoreIcon className="w-6 h-6 text-[--ch-text-muted]" />
+                )}
+              </div>
               <span className="font-semibold text-[--ch-text]">{deal.store.name}</span>
             </div>
             {deal.store.shortDescription && (

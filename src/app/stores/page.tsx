@@ -3,6 +3,7 @@ import { getAllStores } from '@/lib/queries/stores';
 import StoreCard from '@/components/ui/StoreCard';
 import Pagination from '@/components/ui/Pagination';
 import EmptyState from '@/components/ui/EmptyState';
+import { Store as StoreIcon } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'All Stores',
@@ -20,7 +21,7 @@ export default async function StoresPage({ searchParams }: PageProps<'/stores'>)
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[--ch-text]">🏪 All Stores</h1>
+        <h1 className="text-3xl font-bold text-[--ch-text] flex items-center"><StoreIcon className="w-8 h-8 mr-3 text-emerald-500" /> All Stores</h1>
         <p className="text-[--ch-text-muted] mt-2">
           Browse {stores.length}+ stores with active coupons and deals
         </p>
@@ -51,7 +52,7 @@ export default async function StoresPage({ searchParams }: PageProps<'/stores'>)
         </>
       ) : (
         <EmptyState
-          icon="🏪"
+          icon={<StoreIcon className="w-16 h-16 text-emerald-500" />}
           title="No stores found"
           description="Try a different search term or browse all stores."
         />

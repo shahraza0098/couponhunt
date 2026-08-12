@@ -3,6 +3,7 @@ import { getAllDeals } from '@/lib/queries/deals';
 import DealCard from '@/components/ui/DealCard';
 import Pagination from '@/components/ui/Pagination';
 import EmptyState from '@/components/ui/EmptyState';
+import { Flame } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'All Deals & Offers',
@@ -18,7 +19,7 @@ export default async function DealsPage({ searchParams }: PageProps<'/deals'>) {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[--ch-text]">🔥 All Deals & Offers</h1>
+        <h1 className="text-3xl font-bold text-[--ch-text] flex items-center"><Flame className="w-8 h-8 mr-3 text-orange-500" /> All Deals & Offers</h1>
         <p className="text-[--ch-text-muted] mt-2">
           {total} hot deals available right now
         </p>
@@ -53,7 +54,7 @@ export default async function DealsPage({ searchParams }: PageProps<'/deals'>) {
           <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/deals" />
         </>
       ) : (
-        <EmptyState icon="🔥" title="No deals available" description="Check back later for hot deals and offers." />
+        <EmptyState icon={<Flame className="w-16 h-16 text-orange-500" />} title="No deals available" description="Check back later for hot deals and offers." />
       )}
     </div>
   );

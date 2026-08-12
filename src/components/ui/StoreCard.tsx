@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Store } from 'lucide-react';
 
 interface StoreCardProps {
   name: string;
@@ -22,49 +23,32 @@ export default function StoreCard({
   return (
     <Link
       href={`/stores/${slug}`}
-      className="group block bg-[--ch-surface] border border-[--ch-border] rounded-2xl p-5 card-hover"
+      className="group flex flex-col items-center justify-center bg-card text-card-foreground border border-border rounded-xl p-4 card-hover shadow-sm"
       id={`store-card-${slug}`}
     >
-      <div className="flex items-start gap-4">
-        {/* Logo */}
-        <div className="w-14 h-14 rounded-xl bg-[--ch-bg] border border-[--ch-border] flex items-center justify-center text-2xl shrink-0 group-hover:border-emerald-500/30 transition-colors overflow-hidden">
-          {logo ? (
-            logo.startsWith('http') ? (
-              <img src={logo} alt={name} className="w-full h-full object-cover" />
-            ) : (
-              logo
-            )
+      {/* Logo */}
+      <div className="w-16 h-16 rounded-full bg-muted border border-border flex items-center justify-center text-3xl mb-3 group-hover:border-primary/50 transition-colors overflow-hidden shrink-0">
+        {logo ? (
+          logo.startsWith('http') ? (
+            <img src={logo} alt={name} className="w-full h-full object-cover" />
           ) : (
-            '🏪'
-          )}
-        </div>
+            logo
+          )
+        ) : (
+          <Store className="w-8 h-8 text-muted-foreground" />
+        )}
+      </div>
 
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-[--ch-text] group-hover:text-emerald-400 transition-colors truncate">
-            {name}
-          </h3>
-          {shortDescription && (
-            <p className="text-sm text-[--ch-text-muted] mt-1 line-clamp-2">
-              {shortDescription}
-            </p>
-          )}
-
-          {/* Offer counts */}
-          <div className="flex items-center gap-3 mt-3">
-            {couponCount > 0 && (
-              <span className="badge badge-emerald">
-                🎟️ {couponCount} {couponCount === 1 ? 'Coupon' : 'Coupons'}
-              </span>
-            )}
-            {dealCount > 0 && (
-              <span className="badge badge-amber">
-                🔥 {dealCount} {dealCount === 1 ? 'Deal' : 'Deals'}
-              </span>
-            )}
-            {totalOffers === 0 && (
-              <span className="badge badge-neutral">No active offers</span>
-            )}
-          </div>
+      <div className="text-center">
+        <h3 className="font-bold text-foreground text-sm uppercase group-hover:text-primary transition-colors truncate w-full px-2 max-w-[150px]">
+          {name}
+        </h3>
+        
+        {/* Offer count */}
+        <div className="mt-1">
+          <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">
+            {totalOffers} Offers
+          </span>
         </div>
       </div>
     </Link>

@@ -4,6 +4,7 @@ import DataTable from '@/components/admin/DataTable';
 import { ContentStatus } from '@/app/generated/prisma/enums';
 import { deleteStoreAction } from '../actions/stores';
 import { revalidatePath } from 'next/cache';
+import { Store as StoreIcon } from 'lucide-react';
 
 export default async function AdminStoresPage() {
   const stores = await prisma.store.findMany({
@@ -18,7 +19,9 @@ export default async function AdminStoresPage() {
           {store.logo ? (
             <img src={store.logo} alt={store.name} className="w-8 h-8 rounded-full bg-[--ch-bg] object-cover" />
           ) : (
-            <span className="text-2xl">🏪</span>
+            <div className="w-8 h-8 rounded-full bg-[--ch-bg] flex items-center justify-center border border-[--ch-border]">
+              <StoreIcon className="w-4 h-4 text-[--ch-text-muted]" />
+            </div>
           )}
           <span className="font-semibold text-[--ch-text]">{store.name}</span>
         </div>

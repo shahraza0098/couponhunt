@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { formatCurrency, formatDiscount, isExpiringSoon } from '@/lib/utils/formatting';
+import { Heart, Share2, Store, ShoppingBag } from 'lucide-react';
 
 interface DealCardProps {
   id: string;
@@ -41,13 +42,12 @@ export default function DealCard({
   const discountLabel = formatDiscount(discountType, discountValue, currency);
 
   return (
-    <Link
-      href={`/deals/${slug}`}
-      className="group block bg-[--ch-surface] border border-[--ch-border] rounded-2xl overflow-hidden card-hover"
+    <div
+      className="group bg-card text-card-foreground border border-border rounded-xl overflow-hidden card-hover shadow-sm flex flex-col"
       id={`deal-card-${slug}`}
     >
       {/* Product image area */}
-      <div className="relative h-40 bg-[--ch-bg] flex items-center justify-center border-b border-[--ch-border] overflow-hidden">
+      <Link href={`/deals/${slug}`} className="relative h-40 bg-muted flex items-center justify-center overflow-hidden block">
         {productImage ? (
           productImage.startsWith('http') ? (
             <img src={productImage} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -57,70 +57,54 @@ export default function DealCard({
             </span>
           )
         ) : (
-          <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
-            🛍️
-          </span>
+          <ShoppingBag className="w-12 h-12 text-muted-foreground/30 group-hover:scale-110 transition-transform duration-300" />
         )}
 
-        {/* Discount badge overlay */}
-        <div className="absolute top-3 left-3">
-          <span className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-xs font-bold rounded-lg shadow-md">
-            {discountLabel}
-          </span>
+        {/* Favorite Icon (top right like screenshot) */}
+        <div className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-red-500 shadow-sm cursor-pointer hover:bg-white transition-colors">
+          <Heart className="w-4 h-4" />
         </div>
 
-        {/* Badges */}
-        <div className="absolute top-3 right-3 flex flex-col gap-1">
-          {isFeatured && (
-            <span className="badge badge-purple text-[10px]">⭐ Featured</span>
-          )}
-          {expiringSoon && (
-            <span className="badge badge-rose text-[10px]">⏰ Expiring</span>
+        {/* Floating Store Logo */}
+        <div className="absolute -bottom-5 left-4 w-12 h-12 bg-white rounded-full border-2 border-white shadow-sm flex items-center justify-center overflow-hidden z-10 text-lg">
+          {storeLogo ? (
+            storeLogo.startsWith('http') ? (
+              <img src={storeLogo} alt={storeName} className="w-full h-full object-cover" />
+            ) : (
+              <span>{storeLogo}</span>
+            )
+          ) : (
+            <Store className="w-6 h-6 text-muted-foreground" />
           )}
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
-      <div className="p-5">
-        <h3 className="font-semibold text-[--ch-text] group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug mb-3">
-          {title}
-        </h3>
+      <div className="pt-7 px-4 pb-4 flex flex-col flex-1 relative text-center">
+        {/* Share Icon */}
+        <button className="absolute top-2 right-4 text-gray-400 hover:text-gray-600">
+          <Share2 className="w-4 h-4" />
+        </button>
 
-        {/* Pricing */}
-        {(originalPrice != null || salePrice != null) && (
-          <div className="flex items-baseline gap-3 mb-3">
-            {salePrice != null && (
-              <span className="text-xl font-bold text-emerald-400">
-                {formatCurrency(salePrice, currency)}
-              </span>
-            )}
-            {originalPrice != null && (
-              <span className="text-sm text-[--ch-text-faint] line-through">
-                {formatCurrency(originalPrice, currency)}
-              </span>
-            )}
-          </div>
-        )}
+        <p className="text-[10px] text-muted-foreground uppercase font-semibold tracking-wider mb-1">{storeName}</p>
+        
+        <Link href={`/deals/${slug}`}>
+          <h3 className="font-bold text-foreground text-sm uppercase leading-snug mb-4 line-clamp-2 min-h-[40px]">
+            {title}
+          </h3>
+        </Link>
 
-        {/* Store */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-[--ch-text-muted]">
-            <div className="w-6 h-6 flex items-center justify-center bg-[--ch-bg] rounded border border-[--ch-border] overflow-hidden shrink-0">
-              {storeLogo ? (
-                storeLogo.startsWith('http') ? (
-                  <img src={storeLogo} alt={storeName} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-lg">{storeLogo}</span>
-                )
-              ) : (
-                <span className="text-lg">🏪</span>
-              )}
-            </div>
-            <span className="truncate">{storeName}</span>
-          </div>
-          <span className="text-xs text-[--ch-text-faint]">{clickCount} views</span>
+        <div className="mt-auto">
+          <Link href={`/deals/${slug}`} className="block">
+            <button className="btn-purple btn-purple-cutout w-full">
+              {discountLabel || "GET DEAL"}
+            </button>
+          </Link>
+          <p className="text-[9px] text-red-500 font-bold uppercase mt-2">
+            {expiringSoon ? "Expiring Soon" : "Limited Time"}
+          </p>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
