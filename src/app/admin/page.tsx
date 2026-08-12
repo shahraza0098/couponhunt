@@ -51,7 +51,7 @@ export default async function AdminDashboardPage() {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-          <div key={stat.name} className="overflow-hidden rounded-2xl bg-[--ch-surface] border border-[--ch-border] p-6 shadow-sm">
+          <div key={stat.name} className="overflow-hidden rounded-2xl bg-[--ch-surface] p-6 shadow-lg">
             <div className="flex items-center gap-4">
               <div className="text-4xl text-emerald-500"><Icon className="w-10 h-10" /></div>
               <div>
@@ -72,7 +72,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Recent Activity */}
-      <div className="overflow-hidden rounded-2xl bg-[--ch-surface] border border-[--ch-border] shadow-sm">
+      <div className="overflow-hidden rounded-2xl bg-[--ch-surface] shadow-lg">
         <div className="px-6 py-5 border-b border-[--ch-border]">
           <h3 className="text-lg font-medium leading-6 text-[--ch-text]">Recent Click Activity</h3>
         </div>

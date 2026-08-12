@@ -13,7 +13,7 @@ interface DataTableProps<T> {
 
 export default function DataTable<T>({ data, columns, emptyMessage = 'No records found' }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-[--ch-border] bg-[--ch-surface]">
+    <div className="overflow-x-auto rounded-2xl shadow-lg bg-[--ch-surface]">
       <table className="w-full text-left text-sm whitespace-nowrap">
         <thead className="bg-[--ch-bg] border-b border-[--ch-border]">
           <tr>

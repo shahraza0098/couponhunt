@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-[--ch-surface] py-8 px-4 shadow-xl border border-[--ch-border] sm:rounded-2xl sm:px-10">
+        <div className="bg-[--ch-surface] py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10">
           <form action={formAction} className="space-y-6">
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-[--ch-text-muted]">

@@ -17,7 +17,7 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-full flex-col bg-[--ch-surface] border-r border-[--ch-border]">
+    <div className="flex h-full flex-col bg-[--ch-surface] shadow-xl z-20 relative">
       <div className="flex h-16 shrink-0 items-center px-6 border-b border-[--ch-border]">
         <Link href="/admin" className="flex items-center gap-2 text-emerald-500">
           <Ticket className="w-8 h-8" />

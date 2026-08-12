@@ -22,7 +22,7 @@ export default function AdminLayout({
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-[--ch-border] bg-[--ch-surface] px-6">
+        <header className="flex h-16 shrink-0 items-center justify-between shadow-md z-10 relative bg-[--ch-surface] px-6">
           <div className="flex items-center gap-4 lg:hidden">
             <Menu className="w-6 h-6" />
             <span className="text-xl font-bold">Admin</span>
